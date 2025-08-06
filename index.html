@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cronômetro MIAW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #ffd6ec, #ffeaf7);
+      font-family: 'Raleway', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .miaw-title {
+      font-size: 3rem;
+      color: #ff2ca0;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px #fff;
+    }
+
+    .timer {
+      font-size: 5rem;
+      color: #ff2ca0;
+      font-weight: bold;
+      border: 6px solid #ff2ca0;
+      padding: 30px 60px;
+      border-radius: 30px;
+      background-color: white;
+      box-shadow: 0 0 25px #ff2ca0;
+      margin-bottom: 30px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn {
+      background-color: #ff2ca0;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #e01e8c;
+    }
+  </style>
+</head>
+<body>
+  <div class="miaw-title">Cronômetro MIAW</div>
+  <div id="timer" class="timer">01:00</div>
+  <div class="controls">
+    <button class="btn" onclick="startTimer()">Iniciar</button>
+    <button class="btn" onclick="resetTimer()">Resetar</button>
+  </div>
+
+  <!-- Som de miado -->
+  <audio id="miawSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_39d28e39a4.mp3?filename=cat-meow-1-6045.mp3"></audio>
+
+  <script>
+    let countdown;
+    let timeLeft = 60;
+
+    function startTimer() {
+      clearInterval(countdown);
+      countdown = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(countdown);
+          document.getElementById('timer').innerText = '00:00';
+          document.getElementById('miawSound').play();
+          alert('⏰ Tempo esgotado!');
+          return;
+        }
+        timeLeft--;
+        document.getElementById('timer').innerText = formatTime(timeLeft);
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(countdown);
+      timeLeft = 60;
+      document.getElementById('timer').innerText = '01:00';
+    }
+
+    function formatTime(seconds) {
+      const min = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      return `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    }
+  </script>
+</body>
+</html>
